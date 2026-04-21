@@ -73,6 +73,8 @@ export class AlunosService {
         }
 
         this.alunos = this.alunos.filter((al)=>al.matricula !== matricula)
-        return {mensagem: `Aluno ${matricula} removido com sucesso`} // EXIBIR NOME AO INVÉS DA MATRICULA
+        return {mensagem: `Aluno ${matricula} removido com sucesso`} // APARECER O NOME AO INVÉS DA MATRICULA
+
+        
     }
 }
