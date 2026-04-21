@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Param, Query, Post, Body, Put, Patch } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Param, Query, Post, Body, Put, Patch, Delete } from '@nestjs/common';
 import { AlunosService } from './alunos.service';
 
 @Controller('alunos')
@@ -6,7 +6,7 @@ export class AlunosController {
     constructor(private readonly alunosService: AlunosService) {}
 
     @Get()
-    listar(@Query('curso') curso?: string) {
+    listar(@Query('curso') curso?: string) { // USO DA ?
         if(curso) {
             return this.alunosService.listarPorCurso(curso);
         }
@@ -73,5 +73,16 @@ export class AlunosController {
         }
 
         return this.alunosService.atualizarParcial(idMatricula, body)
+    }
+
+    @Delete(':matricula')
+    remover(@Param('matricula')matricula:string) {
+        const idMatricula = Number(matricula);
+
+        if(Number.isNaN(idMatricula)) {
+            throw new BadRequestException('Parâmetro "matricula" deve ser um número')
+        }
+
+        return this.alunosService.remover(idMatricula)
     }
 }

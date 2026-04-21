@@ -13,6 +13,8 @@ export class AlunosService {
         {matricula: 1, nome: 'Paulo Guilherme', curso: 'Sistemas para Internet', ativo: true},
         {matricula: 2, nome: 'Lucas Felipe', curso: 'Alimentos', ativo: true},
         {matricula: 3, nome: 'José Henrique', curso: 'Sistemas para Internet', ativo: false}
+
+        // PERSONALIZAR MATRICULA
     ];
 
     listarTodos() {
@@ -61,5 +63,16 @@ export class AlunosService {
         const atualizado = {...aluno, ...dados}
         this.alunos = this.alunos.map((al) => al.matricula === matricula ? atualizado : al);
         return atualizado
+    }
+
+    remover(matricula: number) {
+        const existe = this.alunos.some((al)=>al.matricula===matricula)
+
+        if(!existe) {
+            throw new NotFoundException('Aluno não encontrado')
+        }
+
+        this.alunos = this.alunos.filter((al)=>al.matricula !== matricula)
+        return {mensagem: `Aluno ${matricula} removido com sucesso`} // EXIBIR NOME AO INVÉS DA MATRICULA
     }
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Query, Param, Post, Body, Put, Patch } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query, Param, Post, Body, Put, Patch, Delete } from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 
 @Controller('produtos')
@@ -6,7 +6,7 @@ export class ProdutosController {
     constructor (private readonly produtosService: ProdutosService) {}
 
     @Get()
-    listar(@Query('categoria') categoria?: string,
+    listar(@Query('categoria') categoria?: string, // Listar por categoria ou por preço
     @Query('preco') preco?: string) 
     
     {
@@ -88,5 +88,16 @@ export class ProdutosController {
                 throw new BadRequestException('Parâmetro "id" deve ser numérico')
             }
             return this.produtosService.atualizarParcial(idNumero, body);
+    }
+
+    @Delete(':id')
+    remover(@Param('id')id: string) {
+        const idNumero = Number(id)
+
+        if(Number.isNaN(idNumero)) {
+            throw new BadRequestException('Parâmetro "id" deve ser numérico')
+        }
+
+        return this.produtosService.remover(idNumero)
     }
 }
