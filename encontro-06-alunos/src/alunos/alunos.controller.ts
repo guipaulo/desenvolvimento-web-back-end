@@ -29,7 +29,6 @@ export class AlunosController {
     criar(
         @Body()
         body: {
-            matricula: number;
             nome: string;
             curso: string;
             ativo: boolean;
