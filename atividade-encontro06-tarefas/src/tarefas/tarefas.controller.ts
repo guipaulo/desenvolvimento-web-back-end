@@ -12,13 +12,9 @@ export class TarefasController {
     ) {
         let lista = this.tarefasService.listarTodos();
 
-        if (prioridade) {
-            lista = lista.filter(t => t.prioridade === prioridade);
-        }
+        if (prioridade) lista = lista.filter(t => t.prioridade === prioridade);
 
-        if (status) {
-            lista = lista.filter(t => t.status === status);
-        }
+        if (status) lista = lista.filter(t => t.status === status);
 
         return lista;
     }
@@ -27,9 +23,7 @@ export class TarefasController {
     buscarPorId(@Param('id') id: string) {
         const numeroId = Number(id);
 
-        if (Number.isNaN(numeroId)) {
-            throw new BadRequestException('Parâmetro "id" deve ser numérico');
-        }
+        if (Number.isNaN(numeroId)) throw new BadRequestException('Parâmetro "id" deve ser um número');
 
         return this.tarefasService.buscarPorId(numeroId);
     }
@@ -59,9 +53,7 @@ export class TarefasController {
     ) {
         const numeroId = Number(id);
 
-        if (Number.isNaN(numeroId)) {
-            throw new BadRequestException('Parâmetro "id" deve ser numérico');
-        }
+        if (Number.isNaN(numeroId)) throw new BadRequestException('Parâmetro "id" deve ser um número');
 
         const tarefaAtualizada = this.tarefasService.atualizarCompleto(numeroId, body);
         return tarefaAtualizada;
@@ -79,9 +71,7 @@ export class TarefasController {
     ) {
         const numeroId = Number(id);
 
-        if (Number.isNaN(numeroId)) {
-            throw new BadRequestException('Parâmetro "id" deve ser numérico');
-        }
+        if (Number.isNaN(numeroId)) throw new BadRequestException('Parâmetro "id" deve ser um número');
 
         const tarefa = this.tarefasService.atualizarParcial(numeroId, body);
         return tarefa;
@@ -91,9 +81,7 @@ export class TarefasController {
     remover(@Param('id') id: string) {
         const numeroId = Number(id);
 
-        if (Number.isNaN(numeroId)) {
-            throw new BadRequestException('Parâmetro "id" deve ser numérico');
-        }
+        if (Number.isNaN(numeroId)) throw new BadRequestException('Parâmetro "id" deve ser um número');
 
         const resultado = this.tarefasService.remover(numeroId);
         return resultado;
