@@ -88,10 +88,12 @@ export class TarefasService {
             throw new NotFoundException('Tarefa não encontrada');
         }
 
+        const tarefa = this.tarefas.find((t)=> t.id === id)!
+
         this.tarefas = this.tarefas.filter((t) => t.id !== id);
 
         return {
-            mensagem: `Tarefa ${id} removida com sucesso`,
+            mensagem: `Tarefa "${tarefa.nome}" de ${id} removida com sucesso`,
         };
     }
 }
