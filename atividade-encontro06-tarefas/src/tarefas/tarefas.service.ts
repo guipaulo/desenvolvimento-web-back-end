@@ -93,7 +93,7 @@ export class TarefasService {
         this.tarefas = this.tarefas.filter((t) => t.id !== id);
 
         return {
-            mensagem: `Tarefa "${tarefa.nome}" de ${id} removida com sucesso`,
+            mensagem: `Tarefa "${tarefa.nome}" de ID ${id} removida com sucesso`,
         };
     }
 }
