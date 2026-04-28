@@ -10,10 +10,10 @@ type Tarefa = {
 @Injectable()
 export class TarefasService {
     private tarefas: Tarefa[] = [
-        { id: 1, nome: 'Implementar API', prioridade: 'alta', status: 'em andamento' },
-        { id: 2, nome: 'Corrigir bugs', prioridade: 'media', status: 'pendente' },
-        { id: 3, nome: 'Atualizar documentação', prioridade: 'baixa', status: 'concluida' },
-    ];
+    { id: 1, nome: 'Aprender tipos básicos (string, number, boolean)', prioridade: 'alta', status: 'em andamento' },
+    { id: 2, nome: 'Praticar funções simples', prioridade: 'media', status: 'pendente' },
+    { id: 3, nome: 'Entender interfaces', prioridade: 'baixa', status: 'concluida' },
+];
 
     listarTodos() {
         return this.tarefas;
@@ -30,9 +30,7 @@ export class TarefasService {
     buscarPorId(id: number) {
         const tarefa = this.tarefas.find((t) => t.id === id);
 
-        if (!tarefa) {
-            throw new NotFoundException('Tarefa não encontrada');
-        }
+        if (!tarefa) throw new NotFoundException('Tarefa não encontrada');
 
         return tarefa;
     }
@@ -53,9 +51,7 @@ export class TarefasService {
     atualizarCompleto(id: number, dados: Omit<Tarefa, 'id'>) {
         const indice = this.tarefas.findIndex((t) => t.id === id);
 
-        if (indice === -1) {
-            throw new NotFoundException('Tarefa não encontrada');
-        }
+        if (indice === -1) throw new NotFoundException('Tarefa não encontrada');
 
         const tarefaAtualizada: Tarefa = {
             id,
@@ -84,9 +80,7 @@ export class TarefasService {
     remover(id: number) {
         const existe = this.tarefas.some((t) => t.id === id);
 
-        if (!existe) {
-            throw new NotFoundException('Tarefa não encontrada');
-        }
+        if (!existe) throw new NotFoundException('Tarefa não encontrada');
 
         const tarefa = this.tarefas.find((t)=> t.id === id)!
 
