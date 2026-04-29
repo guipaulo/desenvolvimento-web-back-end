@@ -1,23 +1,23 @@
 import { BadRequestException, Controller, Get, Query, Param, Post, Body, Put, Patch, Delete } from '@nestjs/common';
-import { TarefasService } from './tarefas.service';
+import { ProdutosService } from './produtos.service';
 
-@Controller('tarefas')
-export class TarefasController {
-    constructor(private readonly tarefasService: TarefasService) {}
+@Controller('produtos')
+export class ProdutosController {
+    constructor(private readonly produtosService: ProdutosService) {}
 
     @Get()
     listar(
-        @Query('prioridade') prioridade?: string,
-        @Query('status') status?: string
+        @Query('categoria') categoria?: string,
+        @Query('preco') preco?: string
     ) {
-        let lista = this.tarefasService.listarTodos();
+        let lista = this.produtosService.listarTodos();
 
-        if (prioridade) {
-            lista = lista.filter(t => t.prioridade === prioridade);
+        if (categoria) {
+            lista = lista.filter(t => t.categoria === categoria);
         }
 
-        if (status) {
-            lista = lista.filter(t => t.status === status);
+        if (preco) {
+            lista = lista.filter(t => t.preco > Number(preco));
         }
 
         return lista;
@@ -31,7 +31,7 @@ export class TarefasController {
             throw new BadRequestException('Parâmetro "id" deve ser numérico');
         }
 
-        return this.tarefasService.buscarPorId(numeroId);
+        return this.produtosService.buscarPorId(numeroId);
     }
 
     @Post()
@@ -39,12 +39,13 @@ export class TarefasController {
         @Body()
         body: {
             nome: string;
-            prioridade: string;
-            status: string;
+            categoria: string;
+            preco: number;
+            ativo: boolean;
         },
     ) {
-        const novaTarefa = this.tarefasService.criar(body);
-        return novaTarefa;
+        const novoProduto = this.produtosService.criar(body);
+        return novoProduto;
     }
 
     @Put(':id')
@@ -53,8 +54,9 @@ export class TarefasController {
         @Body()
         body: {
             nome: string;
-            prioridade: string;
-            status: string;
+            categoria: string;
+            preco: number;
+            ativo: boolean;
         },
     ) {
         const numeroId = Number(id);
@@ -63,8 +65,8 @@ export class TarefasController {
             throw new BadRequestException('Parâmetro "id" deve ser numérico');
         }
 
-        const tarefaAtualizada = this.tarefasService.atualizarCompleto(numeroId, body);
-        return tarefaAtualizada;
+        const produtoAtualizado = this.produtosService.atualizarCompleto(numeroId, body);
+        return produtoAtualizado;
     }
 
     @Patch(':id')
@@ -73,8 +75,9 @@ export class TarefasController {
         @Body()
         body: {
             nome?: string;
-            prioridade?: string;
-            status?: string;
+            categoria?: string;
+            preco?: number;
+            ativo?: boolean;
         },
     ) {
         const numeroId = Number(id);
@@ -83,8 +86,8 @@ export class TarefasController {
             throw new BadRequestException('Parâmetro "id" deve ser numérico');
         }
 
-        const tarefa = this.tarefasService.atualizarParcial(numeroId, body);
-        return tarefa;
+        const produto = this.produtosService.atualizarParcial(numeroId, body);
+        return produto;
     }
 
     @Delete(':id')
@@ -95,7 +98,7 @@ export class TarefasController {
             throw new BadRequestException('Parâmetro "id" deve ser numérico');
         }
 
-        const resultado = this.tarefasService.remover(numeroId);
+        const resultado = this.produtosService.remover(numeroId);
         return resultado;
     }
 }

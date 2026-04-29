@@ -1,19 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-    type Produto = {
-        id: number;
-        nome: string;
-        categoria: string;
-        preco: number;
-        ativo: boolean;
-    };
+type Produto = {
+    id: number;
+    nome: string;
+    categoria: string;
+    preco: number;
+    ativo: boolean;
+};
 
 @Injectable()
 export class ProdutosService {
     private produtos: Produto[] = [
-        { id: 1, nome: 'Notebook', categoria: 'hardware', preco: 3500, ativo: true },
-        { id: 2, nome: 'Mouse', categoria: 'hardware', preco: 120, ativo: true},
-        {id: 3, nome: 'Curso NestJS', categoria: 'educacao', preco: 89, ativo: false},
+        { id: 1, nome: 'Maçã', categoria: 'fruta', preco: 10, ativo: true },
+        { id: 2, nome: 'Desodorante', categoria: 'produtos_pessoais', preco: 10, ativo: true},
+        { id: 3, nome: 'Carne de sol', categoria: 'comida', preco: 100, ativo: false},
     ];
 
     listarPorCategoria(categoria:string) {
@@ -34,8 +34,7 @@ export class ProdutosService {
         return produto;
     }
 
-    buscarPorPreco(preco: number) {
-
+    buscarComPrecoMaiorQue(preco: number) {
         return this.produtos.filter((p) => p.preco > preco)
     }
 

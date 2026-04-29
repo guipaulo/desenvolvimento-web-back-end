@@ -6,12 +6,17 @@ export class AlunosController {
     constructor(private readonly alunosService: AlunosService) {}
 
     @Get()
-    listar(@Query('curso') curso?: string) { // USO DA ?
-        if(curso) {
-            return this.alunosService.listarPorCurso(curso);
-        }
+    listar(@Query('curso') curso?: string,@Query('cpf') cpf?: string) {
+        let aluno = this.alunosService.listarTodos()
+        const Numerocpf = Number(cpf)
 
-        return this.alunosService.listarTodos();
+        if(Number.isNaN(Numerocpf)) throw new BadRequestException('Parâmetro "CPF" deve ser número')
+            
+        if(curso) aluno = aluno.filter(al => al.curso === curso)
+        
+        if(cpf) aluno = aluno.filter(al => al.cpf === Numerocpf)
+
+        return aluno;
     }
 
     @Get(':matricula')
@@ -30,7 +35,8 @@ export class AlunosController {
         @Body()
         body: {
             nome: string;
-            curso: string;
+            cpf: number;
+            curso: 'Alimentos' | 'Sistemas para Internet' | 'Licenciatura em Quimica';
             ativo: boolean;
         },
     ) {
@@ -43,7 +49,8 @@ export class AlunosController {
         @Body()
         body: {
             nome: string;
-            curso: string;
+            cpf: number;
+            curso: 'Alimentos' | 'Sistemas para Internet' | 'Licenciatura em Quimica';
             ativo: boolean;
         },
     ) {
@@ -61,7 +68,8 @@ export class AlunosController {
         @Body()
         body: {
             nome: string;
-            curso: string;
+            cpf: number;
+            curso: 'Alimentos' | 'Sistemas para Internet' | 'Licenciatura em Quimica';
             ativo: boolean;
         },
     ) {
